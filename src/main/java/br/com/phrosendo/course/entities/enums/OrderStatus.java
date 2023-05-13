@@ -18,6 +18,11 @@ public enum OrderStatus {
 		return code;
 	}
 	
+	/**
+	 * Método para converter um valor inteiro para um OrderStatus
+	 * @param code
+	 * @return
+	 */
 	public static OrderStatus valueOf(int code) {
 		for(OrderStatus value: OrderStatus.values()) {
 			if(value.getCode() == code) {
