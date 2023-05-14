@@ -94,14 +94,4 @@ public class Order implements Serializable{
 		return Objects.equals(client, other.client) && Objects.equals(id, other.id)
 				&& Objects.equals(moment, other.moment);
 	}
-
-	@Override
-	public String toString() {
-		return "Order [id=" + id + ", moment=" + moment + ", client=" + client + "]";
-	}
-	
-	
-	
-	
-	
 }
