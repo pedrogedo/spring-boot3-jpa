@@ -31,4 +31,30 @@ public class UserService {
 	public void delete (Integer id) {
 		repository.deleteById(id);
 	}
+	
+	//
+	/**
+	 * A função getReferenceById prepara um objeto monitorado para que se possa mexer
+	 * e somente depois fazer uma alteração no banco de dados.
+	 * @param obj
+	 * @param id
+	 * @return
+	 */
+	public User update (User obj, Integer id) {
+		User entity = repository.getReferenceById(id); 
+		updateData(entity, obj);
+		return repository.save(entity);
+	}
+
+	/**
+	 * Método para atribuir a entidade as atualizações solicitadas
+	 * apenas para os atributos permitidos.
+	 * @param entity
+	 * @param obj
+	 */
+	private void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+	}
 }
