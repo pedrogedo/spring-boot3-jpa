@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import br.com.phrosendo.course.entities.Category;
 import br.com.phrosendo.course.entities.Order;
 import br.com.phrosendo.course.entities.OrderItem;
+import br.com.phrosendo.course.entities.Payment;
 import br.com.phrosendo.course.entities.Product;
 import br.com.phrosendo.course.entities.User;
 import br.com.phrosendo.course.entities.enums.OrderStatus;
@@ -39,7 +40,6 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
-
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -83,5 +83,10 @@ public class TestConfig implements CommandLineRunner {
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 		
+		Payment pay1 = new Payment(null,Instant.parse("2019-06-20T19:53:07Z"), o1);
+//		Payment pay2 = new Payment(null,Instant.parse("2019-06-20T19:53:07Z"), o3);
+		o1.setPayment(pay1);
+		
+		orderRepository.save(o1);
 	}
 }
