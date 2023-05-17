@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.phrosendo.course.entities.User;
 import br.com.phrosendo.course.repositories.UserRepository;
+import br.com.phrosendo.course.services.exceptions.DatabaseException;
 import br.com.phrosendo.course.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -30,12 +32,22 @@ public class UserService {
 	}
 	
 	public void delete (Integer id) {
-		repository.deleteById(id);
+		
+		try {
+			if(repository.existsById(id)) {
+				repository.deleteById(id);
+			}else {
+				throw new ResourceNotFoundException(id);
+			}
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		
 	}
 	
 	//
 	/**
-	 * A função getReferenceById prepara um objeto monitorado para que se possa mexer
+	 * O método getReferenceById prepara um objeto monitorado para que se possa mexer
 	 * e somente depois fazer uma alteração no banco de dados.
 	 * @param obj
 	 * @param id
