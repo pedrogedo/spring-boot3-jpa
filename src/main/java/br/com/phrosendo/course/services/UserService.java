@@ -11,6 +11,7 @@ import br.com.phrosendo.course.entities.User;
 import br.com.phrosendo.course.repositories.UserRepository;
 import br.com.phrosendo.course.services.exceptions.DatabaseException;
 import br.com.phrosendo.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
@@ -54,9 +55,13 @@ public class UserService {
 	 * @return
 	 */
 	public User update (User obj, Integer id) {
-		User entity = repository.getReferenceById(id); 
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getReferenceById(id); 
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	/**
@@ -66,8 +71,8 @@ public class UserService {
 	 * @param obj
 	 */
 	private void updateData(User entity, User obj) {
-		entity.setName(obj.getName());
-		entity.setEmail(obj.getEmail());
-		entity.setPhone(obj.getPhone());
+			entity.setName(obj.getName());
+			entity.setEmail(obj.getEmail());
+			entity.setPhone(obj.getPhone());
 	}
 }
